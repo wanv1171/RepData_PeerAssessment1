@@ -55,7 +55,7 @@ daySteps <- aggregate(steps ~ date, data=activityNoNA, FUN=sum)
 ### Histogram of the total number of steps taken each day
 
 ```r
-hist(daySteps$steps, xlab = "Number of Steps Taken per Day", ylab="Frequency", main = "Total Steps Taken per Day vs Frequncy")
+hist(daySteps$steps, ylim = c(0,30), xlab = "Number of Steps Taken per Day", ylab="Frequency", main = "Total Steps Taken per Day vs Frequncy")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
@@ -189,9 +189,10 @@ activityFill$dayOfWeek <- as.factor(activityFill$dayOfWeek)
 ```r
 avgDayStepsFill <- aggregate(steps~interval+dayOfWeek, data=activityFill, FUN=mean)
 
-ggplot(data=avgDayStepsFill ,aes(group=dayOfWeek)) + 
-  geom_line(aes(x=interval, y=steps, color=dayOfWeek)) + 
-  labs(x="Interval", y="Steps", title="Avg Steps by Intervals, Weekdays vs Weekends (Filled)", color=avgDayStepsFill$dayOfWeek) + 
+ggplot(data=avgDayStepsFill) + 
+  geom_line(aes(x=interval, y=steps)) + 
+  facet_grid(dayOfWeek ~ .) +
+  labs(x="Interval", y="Steps", title="Avg Steps by Intervals, Weekdays vs Weekends (Filled)") + 
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
